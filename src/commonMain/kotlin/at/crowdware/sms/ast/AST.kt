@@ -145,6 +145,22 @@ data class StringLiteral(
 ) : Expression(pos)
 
 /**
+ * Interpolated string literal: "hello ${name}!"
+ */
+data class InterpolatedStringLiteral(
+    val parts: List<StringPart>,
+    val pos: Position? = null
+) : Expression(pos)
+
+/**
+ * Part of an interpolated string - either text or expression
+ */
+sealed class StringPart {
+    data class Text(val value: String) : StringPart()
+    data class Expression(val expr: at.crowdware.sms.ast.Expression) : StringPart()
+}
+
+/**
  * Boolean literal: true, false
  */
 data class BooleanLiteral(

@@ -1,10 +1,10 @@
 {
   "formatVersion": "1.1",
   "component": {
-    "url": "../../sms/1.0.0/sms-1.0.0.module",
+    "url": "../../sms/1.1.0/sms-1.1.0.module",
     "group": "at.crowdware",
     "module": "sms",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "attributes": {
       "org.gradle.status": "release"
     }
@@ -41,13 +41,13 @@
       ],
       "files": [
         {
-          "name": "sms-js-1.0.0.klib",
-          "url": "sms-js-1.0.0.klib",
-          "size": 124777,
-          "sha512": "cd76c3e7fc4c6f8c9201c6a43de1e70207b8cbd07920816107afbdb1ee3051278bda2a7c97fa662e5f2021ecaabe9a7ebf2678254e3acaca63294687d329545d",
-          "sha256": "323dbb0ba2fe5f9301e7c165530d356701f65567cb247d941b15ac7211ce293b",
-          "sha1": "ff8af30807a2b8019cb00b0576948dfc76812abc",
-          "md5": "a04d08d2f4828dc8cebe54e947c5f57f"
+          "name": "sms-js-1.1.0.klib",
+          "url": "sms-js-1.1.0.klib",
+          "size": 134203,
+          "sha512": "7aa5572979ec212073d22d7211892f96e5b83e06aa407eace31750caaa03919aef869e5d9a900127b3ac8b294a735cb9ffcd66959c8b65cfa0aef1fa4defe853",
+          "sha256": "2038d3dea04a32f183566182b492f08c8c5b85ae439aea4ee4174fc36c140d72",
+          "sha1": "ec2b9c87cce849a8e85cca41db486df96274461c",
+          "md5": "64133f1adb8528828f9a4128e1f92d9a"
         }
       ]
     },
@@ -77,13 +77,13 @@
       ],
       "files": [
         {
-          "name": "sms-js-1.0.0.klib",
-          "url": "sms-js-1.0.0.klib",
-          "size": 124777,
-          "sha512": "cd76c3e7fc4c6f8c9201c6a43de1e70207b8cbd07920816107afbdb1ee3051278bda2a7c97fa662e5f2021ecaabe9a7ebf2678254e3acaca63294687d329545d",
-          "sha256": "323dbb0ba2fe5f9301e7c165530d356701f65567cb247d941b15ac7211ce293b",
-          "sha1": "ff8af30807a2b8019cb00b0576948dfc76812abc",
-          "md5": "a04d08d2f4828dc8cebe54e947c5f57f"
+          "name": "sms-js-1.1.0.klib",
+          "url": "sms-js-1.1.0.klib",
+          "size": 134203,
+          "sha512": "7aa5572979ec212073d22d7211892f96e5b83e06aa407eace31750caaa03919aef869e5d9a900127b3ac8b294a735cb9ffcd66959c8b65cfa0aef1fa4defe853",
+          "sha256": "2038d3dea04a32f183566182b492f08c8c5b85ae439aea4ee4174fc36c140d72",
+          "sha1": "ec2b9c87cce849a8e85cca41db486df96274461c",
+          "md5": "64133f1adb8528828f9a4128e1f92d9a"
         }
       ]
     },
@@ -99,13 +99,13 @@
       },
       "files": [
         {
-          "name": "sms-js-1.0.0-sources.jar",
-          "url": "sms-js-1.0.0-sources.jar",
-          "size": 17478,
-          "sha512": "39ea3fe231f9a7f2c2267330fe6409d5505262b1dd40cf9f343cbb8656cfb6d906cb1589fe79d7451ea58157975d136f50113009cc78449a2aefb69b6064ad64",
-          "sha256": "7fff8d47bc52173d7b1959da6d0ee393ac03e0453fe768ee07fdb71b6d688e7e",
-          "sha1": "63895f8afd9ed13bd9881d895f83cd0c87b77fc9",
-          "md5": "c6f86f07c9ff3faa1c65f7fbfcabac5f"
+          "name": "sms-js-1.1.0-sources.jar",
+          "url": "sms-js-1.1.0-sources.jar",
+          "size": 18982,
+          "sha512": "4eb175bdb03c124dc5189add13c7ddb61a0762eacea173eccf0389a6f3c8a8bff4a15d185423c973af75fbfe8d52b1f7f7bc1c44b7fdd5a04d7cb7b17d2d6678",
+          "sha256": "05b1aba5881dcd53267591927fef2bade320a92b34693d15ca8cc9ebaf7d5bac",
+          "sha1": "da04e112ca63030b04bceb94e81da687005a2bff",
+          "md5": "732e56599c4372005664a8c1b78df46f"
         }
       ]
     }

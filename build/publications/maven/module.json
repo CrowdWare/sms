@@ -3,7 +3,7 @@
   "component": {
     "group": "at.crowdware",
     "module": "sms",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "attributes": {
       "org.gradle.status": "release"
     }
@@ -32,13 +32,13 @@
       ],
       "files": [
         {
-          "name": "sms-1.0.0.jar",
-          "url": "sms-1.0.0.jar",
-          "size": 12555,
-          "sha512": "1a9272c612545afb25097ac905ef484ae1ad14fee18471bbf51f1e34a7c54e537e467f410bbb7f5c0ad8b988749466b6471183584546cbc12d7df11d66172031",
-          "sha256": "baf16eb8f8a362307978d279fc7b9b9878460644e5ca34fe6cb16e5511661c1d",
-          "sha1": "b9fc5296d9043efa3c4a27f4095cb60af2693510",
-          "md5": "d257d585f0477e177f8a3f1945d8bc4a"
+          "name": "sms-1.1.0.jar",
+          "url": "sms-1.1.0.jar",
+          "size": 12822,
+          "sha512": "ac114a3d9713900c320c729dac3e310bcfe397be5c11e64a44faa63ce6a053de1cb7e68d22fc9a8044b8634bd22e299ac6ae015a249edd0af9a45d9f934f7363",
+          "sha256": "5363601ea8b63bf07f118868bfe9964a22b2a7c18e393601d56678ce0adae83b",
+          "sha1": "ce17092b1f755807ca9106b4dc4b2d188d573677",
+          "md5": "54bf193d8580dab2465b2af7679392c4"
         }
       ]
     },
@@ -53,13 +53,13 @@
       },
       "files": [
         {
-          "name": "sms-1.0.0-sources.jar",
-          "url": "sms-1.0.0-sources.jar",
-          "size": 17478,
-          "sha512": "39ea3fe231f9a7f2c2267330fe6409d5505262b1dd40cf9f343cbb8656cfb6d906cb1589fe79d7451ea58157975d136f50113009cc78449a2aefb69b6064ad64",
-          "sha256": "7fff8d47bc52173d7b1959da6d0ee393ac03e0453fe768ee07fdb71b6d688e7e",
-          "sha1": "63895f8afd9ed13bd9881d895f83cd0c87b77fc9",
-          "md5": "c6f86f07c9ff3faa1c65f7fbfcabac5f"
+          "name": "sms-1.1.0-sources.jar",
+          "url": "sms-1.1.0-sources.jar",
+          "size": 18982,
+          "sha512": "4eb175bdb03c124dc5189add13c7ddb61a0762eacea173eccf0389a6f3c8a8bff4a15d185423c973af75fbfe8d52b1f7f7bc1c44b7fdd5a04d7cb7b17d2d6678",
+          "sha256": "05b1aba5881dcd53267591927fef2bade320a92b34693d15ca8cc9ebaf7d5bac",
+          "sha1": "da04e112ca63030b04bceb94e81da687005a2bff",
+          "md5": "732e56599c4372005664a8c1b78df46f"
         }
       ]
     },
@@ -72,10 +72,10 @@
         "org.jetbrains.kotlin.platform.type": "js"
       },
       "available-at": {
-        "url": "../../sms-js/1.0.0/sms-js-1.0.0.module",
+        "url": "../../sms-js/1.1.0/sms-js-1.1.0.module",
         "group": "at.crowdware",
         "module": "sms-js",
-        "version": "1.0.0"
+        "version": "1.1.0"
       }
     },
     {
@@ -87,10 +87,10 @@
         "org.jetbrains.kotlin.platform.type": "js"
       },
       "available-at": {
-        "url": "../../sms-js/1.0.0/sms-js-1.0.0.module",
+        "url": "../../sms-js/1.1.0/sms-js-1.1.0.module",
         "group": "at.crowdware",
         "module": "sms-js",
-        "version": "1.0.0"
+        "version": "1.1.0"
       }
     },
     {
@@ -104,10 +104,10 @@
         "org.jetbrains.kotlin.platform.type": "js"
       },
       "available-at": {
-        "url": "../../sms-js/1.0.0/sms-js-1.0.0.module",
+        "url": "../../sms-js/1.1.0/sms-js-1.1.0.module",
         "group": "at.crowdware",
         "module": "sms-js",
-        "version": "1.0.0"
+        "version": "1.1.0"
       }
     },
     {
@@ -119,10 +119,10 @@
         "org.jetbrains.kotlin.platform.type": "jvm"
       },
       "available-at": {
-        "url": "../../sms-jvm/1.0.0/sms-jvm-1.0.0.module",
+        "url": "../../sms-jvm/1.1.0/sms-jvm-1.1.0.module",
         "group": "at.crowdware",
         "module": "sms-jvm",
-        "version": "1.0.0"
+        "version": "1.1.0"
       }
     },
     {
@@ -134,10 +134,10 @@
         "org.jetbrains.kotlin.platform.type": "jvm"
       },
       "available-at": {
-        "url": "../../sms-jvm/1.0.0/sms-jvm-1.0.0.module",
+        "url": "../../sms-jvm/1.1.0/sms-jvm-1.1.0.module",
         "group": "at.crowdware",
         "module": "sms-jvm",
-        "version": "1.0.0"
+        "version": "1.1.0"
       }
     },
     {
@@ -151,10 +151,10 @@
         "org.jetbrains.kotlin.platform.type": "jvm"
       },
       "available-at": {
-        "url": "../../sms-jvm/1.0.0/sms-jvm-1.0.0.module",
+        "url": "../../sms-jvm/1.1.0/sms-jvm-1.1.0.module",
         "group": "at.crowdware",
         "module": "sms-jvm",
-        "version": "1.0.0"
+        "version": "1.1.0"
       }
     }
   ]

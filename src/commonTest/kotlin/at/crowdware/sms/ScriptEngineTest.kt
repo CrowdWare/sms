@@ -183,6 +183,34 @@ class ScriptEngineTest {
     }
     
     @Test
+    fun testStringInterpolation() {
+        val engine = ScriptEngine()
+        
+        // Test basic interpolation
+        val result1 = engine.executeAndGetKotlin("""
+            var name = "World"
+            "Hello ${'$'}{name}!"
+        """)
+        assertEquals("Hello World!", result1)
+        
+        // Test expression interpolation
+        val result2 = engine.executeAndGetKotlin("""
+            var x = 3
+            var y = 4
+            "The result is ${'$'}{x + y}"
+        """)
+        assertEquals("The result is 7", result2)
+        
+        // Test multiple interpolations
+        val result3 = engine.executeAndGetKotlin("""
+            var a = 10
+            var b = 5
+            "Sum: ${'$'}{a + b}, Diff: ${'$'}{a - b}"
+        """)
+        assertEquals("Sum: 15, Diff: 5", result3)
+    }
+    
+    @Test
     fun testStandardLibrary() {
         val engine = ScriptEngine.withStandardLibrary()
         

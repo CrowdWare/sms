@@ -129,39 +129,140 @@ class Lexer(private val input: String) {
     }
     
     private fun string(startPos: Position): Token {
-        val value = StringBuilder()
+        val parts = mutableListOf<String>()
+        val hasInterpolation = scanStringForInterpolation(parts)
+        
+        if (hasInterpolation) {
+            // Return interpolated string token with encoded parts
+            return Token(TokenType.INTERPOLATED_STRING, parts.joinToString("\u0001"), startPos)
+        } else {
+            // Return simple string token
+            return Token(TokenType.STRING, parts.firstOrNull() ?: "", startPos)
+        }
+    }
+    
+    private fun scanStringForInterpolation(parts: MutableList<String>): Boolean {
+        val currentPart = StringBuilder()
+        var hasInterpolation = false
         
         while (peek() != '"' && !isAtEnd()) {
             if (peek() == '\n') {
                 line++
                 column = 1
+                currentPart.append(advance())
             } else if (peek() == '\\') {
                 advance() // consume backslash
                 if (isAtEnd()) {
-                    throw LexError("Unterminated string literal - missing closing quote", startPos)
+                    throw LexError("Unterminated string literal - missing closing quote", currentPosition())
                 }
                 when (val escaped = advance()) {
-                    'n' -> value.append('\n')
-                    't' -> value.append('\t')
-                    'r' -> value.append('\r')
-                    '\\' -> value.append('\\')
-                    '"' -> value.append('"')
+                    'n' -> currentPart.append('\n')
+                    't' -> currentPart.append('\t')
+                    'r' -> currentPart.append('\r')
+                    '\\' -> currentPart.append('\\')
+                    '"' -> currentPart.append('"')
+                    '$' -> currentPart.append('$') // Escaped $
                     else -> {
-                        value.append('\\')
-                        value.append(escaped)
+                        currentPart.append('\\')
+                        currentPart.append(escaped)
                     }
                 }
+            } else if (peek() == '$') {
+                if (peekNext() == '{') {
+                    // Found ${expression} interpolation
+                    hasInterpolation = true
+                    
+                    // Add text part if any
+                    if (currentPart.isNotEmpty()) {
+                        parts.add("TEXT:${currentPart}")
+                        currentPart.clear()
+                    }
+                    
+                    // Skip ${
+                    advance() // $
+                    advance() // {
+                    
+                    // Collect expression tokens until }
+                    val exprStart = current
+                    var braceCount = 1
+                    
+                    while (braceCount > 0 && !isAtEnd()) {
+                        when (peek()) {
+                            '{' -> braceCount++
+                            '}' -> braceCount--
+                        }
+                        advance()
+                    }
+                    
+                    if (braceCount > 0) {
+                        throw LexError("Unterminated string interpolation - missing }", currentPosition())
+                    }
+                    
+                    // Extract expression text (without the closing })
+                    val exprText = input.substring(exprStart, current - 1)
+                    parts.add("EXPR:$exprText")
+                    
+                } else if (peekNext().isLetter() || peekNext() == '_') {
+                    // Found $identifier interpolation
+                    hasInterpolation = true
+                    
+                    // Add text part if any
+                    if (currentPart.isNotEmpty()) {
+                        parts.add("TEXT:${currentPart}")
+                        currentPart.clear()
+                    }
+                    
+                    // Skip $
+                    advance() // $
+                    
+                    // Collect identifier
+                    val identStart = current
+                    while (peek().isLetterOrDigit() || peek() == '_') {
+                        advance()
+                    }
+                    
+                    val identifier = input.substring(identStart, current)
+                    if (identifier.isEmpty()) {
+                        throw LexError("Invalid interpolation - expected identifier after $", currentPosition())
+                    }
+                    
+                    parts.add("EXPR:$identifier")
+                    
+                } else {
+                    // Just a regular $ character
+                    currentPart.append(advance())
+                }
+                
             } else {
-                value.append(advance())
+                currentPart.append(advance())
             }
         }
         
         if (isAtEnd()) {
-            throw LexError("Unterminated string literal - missing closing quote", startPos)
+            throw LexError("Unterminated string literal - missing closing quote", currentPosition())
+        }
+        
+        // Add final text part if any
+        if (currentPart.isNotEmpty()) {
+            parts.add("TEXT:${currentPart}")
         }
         
         advance() // consume closing quote
-        return Token(TokenType.STRING, value.toString(), startPos)
+        
+        // If no interpolation, just add the text as first part without prefix
+        if (!hasInterpolation) {
+            if (parts.isEmpty()) {
+                parts.add("")
+            } else {
+                // Remove TEXT: prefix from single text part
+                val singlePart = parts.first()
+                if (singlePart.startsWith("TEXT:")) {
+                    parts[0] = singlePart.substring(5)
+                }
+            }
+        }
+        
+        return hasInterpolation
     }
     
     private fun number(start: Int, startPos: Position): Token {

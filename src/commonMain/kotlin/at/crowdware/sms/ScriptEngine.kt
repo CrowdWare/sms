@@ -148,7 +148,7 @@ class ScriptEngine {
     /**
      * Get version information
      */
-    fun getVersion(): String = "SMS Engine 1.0.0"
+    fun getVersion(): String = "SMS Engine 1.1.0"
     
     companion object {
         /**
@@ -159,8 +159,20 @@ class ScriptEngine {
             
             // Enhanced println that accepts multiple arguments
             engine.registerFunction("println") { args ->
-                val message = args.joinToString(" ") { ValueUtils.toString(it) }
-                println(message)
+                if (args.isNotEmpty()) {
+                    val message = args.joinToString(" ") { 
+                        when (it) {
+                            is StringValue -> it.value
+                            is NumberValue -> if (it.value == it.value.toInt().toDouble()) it.value.toInt().toString() else it.value.toString()
+                            is BooleanValue -> it.value.toString()
+                            is NullValue -> "null"
+                            else -> it.toString()
+                        }
+                    }
+                    println(message)
+                } else {
+                    println()
+                }
                 NullValue
             }
             

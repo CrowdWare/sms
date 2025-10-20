@@ -359,6 +359,7 @@ class Parser(private val tokens: List<Token>) {
             match(TokenType.NULL) -> NullLiteral(previous().position)
             match(TokenType.NUMBER) -> NumberLiteral(previous().text.toDouble(), previous().position)
             match(TokenType.STRING) -> StringLiteral(previous().text, previous().position)
+            match(TokenType.INTERPOLATED_STRING) -> parseInterpolatedString()
             match(TokenType.IDENTIFIER) -> Identifier(previous().text, previous().position)
             
             match(TokenType.LEFT_PAREN) -> {
@@ -426,6 +427,36 @@ class Parser(private val tokens: List<Token>) {
     private fun consume(type: TokenType, message: String): Token {
         if (check(type)) return advance()
         throw ParseError(message, peek().position)
+    }
+    
+    private fun parseInterpolatedString(): Expression {
+        val token = previous()
+        val encodedParts = token.text.split("\u0001")
+        val parts = mutableListOf<StringPart>()
+        
+        for (encodedPart in encodedParts) {
+            when {
+                encodedPart.startsWith("TEXT:") -> {
+                    val text = encodedPart.substring(5)
+                    if (text.isNotEmpty()) {
+                        parts.add(StringPart.Text(text))
+                    }
+                }
+                encodedPart.startsWith("EXPR:") -> {
+                    val exprText = encodedPart.substring(5)
+                    if (exprText.isNotEmpty()) {
+                        // Parse the expression text
+                        val exprLexer = at.crowdware.sms.lexer.Lexer(exprText)
+                        val exprTokens = exprLexer.tokenize()
+                        val exprParser = Parser(exprTokens)
+                        val expr = exprParser.expression()
+                        parts.add(StringPart.Expression(expr))
+                    }
+                }
+            }
+        }
+        
+        return InterpolatedStringLiteral(parts, token.position)
     }
     
     private fun skipNewlines() {

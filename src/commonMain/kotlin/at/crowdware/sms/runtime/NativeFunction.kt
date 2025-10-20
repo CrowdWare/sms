@@ -128,9 +128,11 @@ class NativeFunctionRegistry {
         // Simple print function (can be overridden by host application)
         register("print") { args ->
             if (args.isNotEmpty()) {
-                println(ValueUtils.toString(args[0]))
+                print(ValueUtils.toString(args[0]))
             }
             NullValue
         }
+        
+        // println removed from builtins - should be registered by withStandardLibrary() if needed
     }
 }

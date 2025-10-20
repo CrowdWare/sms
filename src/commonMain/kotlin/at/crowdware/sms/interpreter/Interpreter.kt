@@ -289,6 +289,7 @@ class Interpreter(private val nativeFunctions: NativeFunctionRegistry = NativeFu
             when (expression) {
                 is NumberLiteral -> NumberValue(expression.value)
                 is StringLiteral -> StringValue(expression.value)
+                is InterpolatedStringLiteral -> evaluateInterpolatedString(expression)
                 is BooleanLiteral -> BooleanValue(expression.value)
                 is NullLiteral -> NullValue
                 
@@ -373,7 +374,17 @@ class Interpreter(private val nativeFunctions: NativeFunctionRegistry = NativeFu
         return when (expr.operator) {
             "+" -> when {
                 left is NumberValue && right is NumberValue -> NumberValue(left.value + right.value)
-                left is StringValue || right is StringValue -> StringValue(left.toString() + right.toString())
+                left is StringValue || right is StringValue -> {
+                    val leftStr = when (left) {
+                        is StringValue -> left.value
+                        else -> left.toString()
+                    }
+                    val rightStr = when (right) {
+                        is StringValue -> right.value
+                        else -> right.toString()
+                    }
+                    StringValue(leftStr + rightStr)
+                }
                 else -> throw RuntimeError("Invalid operands for '+'", expr.position)
             }
             "-" -> when {
@@ -520,6 +531,35 @@ class Interpreter(private val nativeFunctions: NativeFunctionRegistry = NativeFu
             "toLowerCase" -> StringValue(string.value.lowercase())
             else -> throw RuntimeError("Unknown string method '$method'", position)
         }
+    }
+    
+    private fun evaluateInterpolatedString(expr: InterpolatedStringLiteral): Value {
+        val result = StringBuilder()
+        
+        for (part in expr.parts) {
+            when (part) {
+                is StringPart.Text -> result.append(part.value)
+                is StringPart.Expression -> {
+                    val value = evaluateExpression(part.expr)
+                    val str = when (value) {
+                        is StringValue -> value.value
+                        is NumberValue -> {
+                            if (value.value == value.value.toInt().toDouble()) {
+                                value.value.toInt().toString()
+                            } else {
+                                value.value.toString()
+                            }
+                        }
+                        is BooleanValue -> value.value.toString()
+                        is NullValue -> "null"
+                        else -> value.toString()
+                    }
+                    result.append(str)
+                }
+            }
+        }
+        
+        return StringValue(result.toString())
     }
     
     /**

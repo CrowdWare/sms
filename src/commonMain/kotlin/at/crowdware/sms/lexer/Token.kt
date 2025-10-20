@@ -9,6 +9,7 @@ enum class TokenType {
     // Literals
     NUMBER,        // 123
     STRING,        // "hello"
+    INTERPOLATED_STRING, // "hello ${name}!"
     BOOLEAN,       // true, false
     NULL,          // null
     

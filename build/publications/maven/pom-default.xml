@@ -9,7 +9,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>at.crowdware</groupId>
   <artifactId>sms</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
   <name>Simple Markup Script (SMS)</name>
   <description>A lightweight, multiplatform Kotlin script engine with native function integration</description>
   <url>https://github.com/CrowdWare/sms</url>
