@@ -311,6 +311,12 @@ class Interpreter(private val nativeFunctions: NativeFunctionRegistry = NativeFu
                         return nativeFunc.call(args)
                     }
                     
+                    // Check for data class constructor
+                    val dataClass = currentScope.getDataClass(expression.name)
+                    if (dataClass != null) {
+                        return callDataClassConstructor(dataClass, args, expression.position)
+                    }
+                    
                     // Check for user-defined function
                     val func = currentScope.getFunction(expression.name)
                         ?: throw RuntimeError("Undefined function '${expression.name}'", expression.position)
@@ -377,10 +383,16 @@ class Interpreter(private val nativeFunctions: NativeFunctionRegistry = NativeFu
                 left is StringValue || right is StringValue -> {
                     val leftStr = when (left) {
                         is StringValue -> left.value
+                        is NumberValue -> if (left.value == left.value.toInt().toDouble()) left.value.toInt().toString() else left.value.toString()
+                        is BooleanValue -> left.value.toString()
+                        is NullValue -> "null"
                         else -> left.toString()
                     }
                     val rightStr = when (right) {
                         is StringValue -> right.value
+                        is NumberValue -> if (right.value == right.value.toInt().toDouble()) right.value.toInt().toString() else right.value.toString()
+                        is BooleanValue -> right.value.toString()
+                        is NullValue -> "null"
                         else -> right.toString()
                     }
                     StringValue(leftStr + rightStr)
@@ -398,7 +410,10 @@ class Interpreter(private val nativeFunctions: NativeFunctionRegistry = NativeFu
             "/" -> when {
                 left is NumberValue && right is NumberValue -> {
                     if (right.value == 0.0) throw RuntimeError("Division by zero", expr.position)
-                    NumberValue(left.value / right.value)
+                    // Integer division for SMS
+                    val leftInt = left.value.toInt()
+                    val rightInt = right.value.toInt()
+                    NumberValue(leftInt / rightInt)
                 }
                 else -> throw RuntimeError("Invalid operands for '/'", expr.position)
             }
@@ -560,6 +575,19 @@ class Interpreter(private val nativeFunctions: NativeFunctionRegistry = NativeFu
         }
         
         return StringValue(result.toString())
+    }
+    
+    private fun callDataClassConstructor(dataClass: DataClassDeclaration, args: List<Value>, position: Position?): Value {
+        if (args.size != dataClass.fields.size) {
+            throw RuntimeError("Expected ${dataClass.fields.size} arguments for ${dataClass.name} constructor, got ${args.size}", position)
+        }
+        
+        val fields = mutableMapOf<String, Value>()
+        for (i in dataClass.fields.indices) {
+            fields[dataClass.fields[i]] = args[i]
+        }
+        
+        return ObjectValue(dataClass.name, fields)
     }
     
     /**

@@ -34,11 +34,11 @@
         {
           "name": "sms-1.1.0.jar",
           "url": "sms-1.1.0.jar",
-          "size": 12822,
-          "sha512": "ac114a3d9713900c320c729dac3e310bcfe397be5c11e64a44faa63ce6a053de1cb7e68d22fc9a8044b8634bd22e299ac6ae015a249edd0af9a45d9f934f7363",
-          "sha256": "5363601ea8b63bf07f118868bfe9964a22b2a7c18e393601d56678ce0adae83b",
-          "sha1": "ce17092b1f755807ca9106b4dc4b2d188d573677",
-          "md5": "54bf193d8580dab2465b2af7679392c4"
+          "size": 12935,
+          "sha512": "af0f410c03d9c4509bb52bdffe9ebce284dac81fbf3e3361f957efae0ba0a4f340dae21ef6b92b88718ec388acf6fe498a3652157e7d615d9af0e7ce3107e04c",
+          "sha256": "8d28a039b77f6d81ee3472c467e5d2037217783adf02e0fdf9e12f4e9460cf85",
+          "sha1": "cd66b94794ccdfd7ef78ea879f52b45217b50b25",
+          "md5": "3e0c47690ed8521ecb8a73e4ea4992b3"
         }
       ]
     },
@@ -55,11 +55,11 @@
         {
           "name": "sms-1.1.0-sources.jar",
           "url": "sms-1.1.0-sources.jar",
-          "size": 18982,
-          "sha512": "4eb175bdb03c124dc5189add13c7ddb61a0762eacea173eccf0389a6f3c8a8bff4a15d185423c973af75fbfe8d52b1f7f7bc1c44b7fdd5a04d7cb7b17d2d6678",
-          "sha256": "05b1aba5881dcd53267591927fef2bade320a92b34693d15ca8cc9ebaf7d5bac",
-          "sha1": "da04e112ca63030b04bceb94e81da687005a2bff",
-          "md5": "732e56599c4372005664a8c1b78df46f"
+          "size": 19731,
+          "sha512": "bc29022e1caf02a0817f146a19278147d297cc4f3f258103ffebe6c5f4aae985f12bda46b035dc1a02dabe6c9c9518447b80f69625d602d189056aa90dcaf5f6",
+          "sha256": "f0b79569ded9f85ee30de539175c9dccee863488583e6ac54a1f3c9b7fe43be3",
+          "sha1": "c9f88936a0638e80e804acf85317bdf2f5bcbd50",
+          "md5": "55ea7df7fe3feb264708bf594045d14a"
         }
       ]
     },

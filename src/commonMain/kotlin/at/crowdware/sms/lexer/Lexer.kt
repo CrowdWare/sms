@@ -32,7 +32,7 @@ class Lexer(private val input: String) {
     
     private fun nextToken(): Token {
         val start = current
-        val startPos = currentPosition()
+        val startPos = positionFromIndex(start)
         val c = advance()
         
         return when (c) {
@@ -113,8 +113,7 @@ class Lexer(private val input: String) {
                 }
             }
             '\n' -> {
-                line++
-                column = 1
+                // Note: line/column already updated in advance()
                 Token(TokenType.NEWLINE, "\n", startPos)
             }
             '"' -> string(startPos)
@@ -146,11 +145,7 @@ class Lexer(private val input: String) {
         var hasInterpolation = false
         
         while (peek() != '"' && !isAtEnd()) {
-            if (peek() == '\n') {
-                line++
-                column = 1
-                currentPart.append(advance())
-            } else if (peek() == '\\') {
+            if (peek() == '\\') {
                 advance() // consume backslash
                 if (isAtEnd()) {
                     throw LexError("Unterminated string literal - missing closing quote", currentPosition())
@@ -283,13 +278,23 @@ class Lexer(private val input: String) {
         
         val text = input.substring(start, current)
         val type = KEYWORDS[text] ?: TokenType.IDENTIFIER
+        
         return Token(type, text, startPos)
     }
     
     private fun skipWhitespace() {
         while (!isAtEnd()) {
             when (peek()) {
-                ' ', '\t', '\r' -> advance()
+                ' ', '\t' -> advance()
+                '\r' -> {
+                    advance()
+                    // Handle \r\n sequence
+                    if (peek() == '\n') {
+                        advance()
+                        line++
+                        column = 1
+                    }
+                }
                 else -> break
             }
         }
@@ -298,7 +303,12 @@ class Lexer(private val input: String) {
     private fun advance(): Char {
         if (isAtEnd()) return '\u0000'
         val c = input[current++]
-        if (c != '\n') column++
+        if (c == '\n') {
+            line++
+            column = 1
+        } else {
+            column++
+        }
         return c
     }
     
@@ -322,4 +332,34 @@ class Lexer(private val input: String) {
     private fun isAtEnd(): Boolean = current >= input.length
     
     private fun currentPosition(): Position = Position(line, column)
+    
+    /**
+     * Calculate precise position from character index
+     */
+    private fun positionFromIndex(index: Int): Position {
+        val actualLine = input.substring(0, index).count { it == '\n' } + 1
+        val lineStart = if (actualLine == 1) 0 else input.lastIndexOf('\n', index - 1) + 1
+        val actualColumn = index - lineStart + 1
+        return Position(actualLine, actualColumn)
+    }
+    
+    companion object {
+        private val KEYWORDS = mapOf(
+            "fun" to TokenType.FUN,
+            "var" to TokenType.VAR,
+            "if" to TokenType.IF,
+            "else" to TokenType.ELSE,
+            "while" to TokenType.WHILE,
+            "for" to TokenType.FOR,
+            "in" to TokenType.IN,
+            "break" to TokenType.BREAK,
+            "continue" to TokenType.CONTINUE,
+            "return" to TokenType.RETURN,
+            "true" to TokenType.BOOLEAN,
+            "false" to TokenType.BOOLEAN,
+            "null" to TokenType.NULL,
+            "data" to TokenType.DATA,
+            "class" to TokenType.CLASS
+        )
+    }
 }

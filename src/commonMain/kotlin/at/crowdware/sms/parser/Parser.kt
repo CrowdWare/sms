@@ -369,14 +369,21 @@ class Parser(private val tokens: List<Token>) {
             }
             
             match(TokenType.LEFT_BRACKET) -> {
+                val startPos = previous().position
                 val elements = mutableListOf<Expression>()
                 if (!check(TokenType.RIGHT_BRACKET)) {
                     do {
-                        elements.add(expression())
+                        if (check(TokenType.IDENTIFIER)) {
+                            // Explicit identifier handling for better error messages
+                            val identifier = advance()
+                            elements.add(Identifier(identifier.text, identifier.position))
+                        } else {
+                            elements.add(expression())
+                        }
                     } while (match(TokenType.COMMA))
                 }
                 consume(TokenType.RIGHT_BRACKET, "Expected ']' after array elements")
-                ArrayLiteral(elements, previous().position)
+                ArrayLiteral(elements, startPos)
             }
             
             else -> throw ParseError("Expected expression", peek().position)
@@ -426,7 +433,15 @@ class Parser(private val tokens: List<Token>) {
     
     private fun consume(type: TokenType, message: String): Token {
         if (check(type)) return advance()
-        throw ParseError(message, peek().position)
+        
+        // For better error reporting, use the most relevant position
+        val currentToken = peek()
+        val errorPosition = when {
+            currentToken.type == TokenType.EOF && current > 0 -> previous().position
+            else -> currentToken.position
+        }
+        
+        throw ParseError(message, errorPosition)
     }
     
     private fun parseInterpolatedString(): Expression {
