@@ -1,0 +1,17 @@
+{
+  "name": "sms",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/sms",
+    "packages/sms-test",
+    "packages_imported/kotlin-test-js-runner/0.0.1",
+    "packages_imported/kotlin-test/1.9.20"
+  ],
+  "resolutions": {},
+  "devDependencies": {},
+  "dependencies": {},
+  "peerDependencies": {},
+  "optionalDependencies": {},
+  "bundledDependencies": []
+}

@@ -1,0 +1,113 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../sms/1.0.0/sms-1.0.0.module",
+    "group": "at.crowdware",
+    "module": "sms",
+    "version": "1.0.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.4"
+    }
+  },
+  "variants": [
+    {
+      "name": "jsApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.js.compiler": "ir",
+        "org.jetbrains.kotlin.platform.type": "js"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-dom-api-compat",
+          "version": {
+            "requires": "1.9.20"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "sms-js-1.0.0.klib",
+          "url": "sms-js-1.0.0.klib",
+          "size": 124777,
+          "sha512": "cd76c3e7fc4c6f8c9201c6a43de1e70207b8cbd07920816107afbdb1ee3051278bda2a7c97fa662e5f2021ecaabe9a7ebf2678254e3acaca63294687d329545d",
+          "sha256": "323dbb0ba2fe5f9301e7c165530d356701f65567cb247d941b15ac7211ce293b",
+          "sha1": "ff8af30807a2b8019cb00b0576948dfc76812abc",
+          "md5": "a04d08d2f4828dc8cebe54e947c5f57f"
+        }
+      ]
+    },
+    {
+      "name": "jsRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.js.compiler": "ir",
+        "org.jetbrains.kotlin.platform.type": "js"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-dom-api-compat",
+          "version": {
+            "requires": "1.9.20"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "sms-js-1.0.0.klib",
+          "url": "sms-js-1.0.0.klib",
+          "size": 124777,
+          "sha512": "cd76c3e7fc4c6f8c9201c6a43de1e70207b8cbd07920816107afbdb1ee3051278bda2a7c97fa662e5f2021ecaabe9a7ebf2678254e3acaca63294687d329545d",
+          "sha256": "323dbb0ba2fe5f9301e7c165530d356701f65567cb247d941b15ac7211ce293b",
+          "sha1": "ff8af30807a2b8019cb00b0576948dfc76812abc",
+          "md5": "a04d08d2f4828dc8cebe54e947c5f57f"
+        }
+      ]
+    },
+    {
+      "name": "jsSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.js.compiler": "ir",
+        "org.jetbrains.kotlin.platform.type": "js"
+      },
+      "files": [
+        {
+          "name": "sms-js-1.0.0-sources.jar",
+          "url": "sms-js-1.0.0-sources.jar",
+          "size": 17478,
+          "sha512": "39ea3fe231f9a7f2c2267330fe6409d5505262b1dd40cf9f343cbb8656cfb6d906cb1589fe79d7451ea58157975d136f50113009cc78449a2aefb69b6064ad64",
+          "sha256": "7fff8d47bc52173d7b1959da6d0ee393ac03e0453fe768ee07fdb71b6d688e7e",
+          "sha1": "63895f8afd9ed13bd9881d895f83cd0c87b77fc9",
+          "md5": "c6f86f07c9ff3faa1c65f7fbfcabac5f"
+        }
+      ]
+    }
+  ]
+}

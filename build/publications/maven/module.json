@@ -1,0 +1,161 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "at.crowdware",
+    "module": "sms",
+    "version": "1.0.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.4"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-metadata",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.9.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "sms-1.0.0.jar",
+          "url": "sms-1.0.0.jar",
+          "size": 12555,
+          "sha512": "1a9272c612545afb25097ac905ef484ae1ad14fee18471bbf51f1e34a7c54e537e467f410bbb7f5c0ad8b988749466b6471183584546cbc12d7df11d66172031",
+          "sha256": "baf16eb8f8a362307978d279fc7b9b9878460644e5ca34fe6cb16e5511661c1d",
+          "sha1": "b9fc5296d9043efa3c4a27f4095cb60af2693510",
+          "md5": "d257d585f0477e177f8a3f1945d8bc4a"
+        }
+      ]
+    },
+    {
+      "name": "metadataSourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "files": [
+        {
+          "name": "sms-1.0.0-sources.jar",
+          "url": "sms-1.0.0-sources.jar",
+          "size": 17478,
+          "sha512": "39ea3fe231f9a7f2c2267330fe6409d5505262b1dd40cf9f343cbb8656cfb6d906cb1589fe79d7451ea58157975d136f50113009cc78449a2aefb69b6064ad64",
+          "sha256": "7fff8d47bc52173d7b1959da6d0ee393ac03e0453fe768ee07fdb71b6d688e7e",
+          "sha1": "63895f8afd9ed13bd9881d895f83cd0c87b77fc9",
+          "md5": "c6f86f07c9ff3faa1c65f7fbfcabac5f"
+        }
+      ]
+    },
+    {
+      "name": "jsApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.js.compiler": "ir",
+        "org.jetbrains.kotlin.platform.type": "js"
+      },
+      "available-at": {
+        "url": "../../sms-js/1.0.0/sms-js-1.0.0.module",
+        "group": "at.crowdware",
+        "module": "sms-js",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "name": "jsRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.js.compiler": "ir",
+        "org.jetbrains.kotlin.platform.type": "js"
+      },
+      "available-at": {
+        "url": "../../sms-js/1.0.0/sms-js-1.0.0.module",
+        "group": "at.crowdware",
+        "module": "sms-js",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "name": "jsSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.js.compiler": "ir",
+        "org.jetbrains.kotlin.platform.type": "js"
+      },
+      "available-at": {
+        "url": "../../sms-js/1.0.0/sms-js-1.0.0.module",
+        "group": "at.crowdware",
+        "module": "sms-js",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../sms-jvm/1.0.0/sms-jvm-1.0.0.module",
+        "group": "at.crowdware",
+        "module": "sms-jvm",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../sms-jvm/1.0.0/sms-jvm-1.0.0.module",
+        "group": "at.crowdware",
+        "module": "sms-jvm",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "name": "jvmSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../sms-jvm/1.0.0/sms-jvm-1.0.0.module",
+        "group": "at.crowdware",
+        "module": "sms-jvm",
+        "version": "1.0.0"
+      }
+    }
+  ]
+}

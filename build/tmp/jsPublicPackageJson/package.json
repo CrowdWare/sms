@@ -1,0 +1,13 @@
+{
+  "name": "sms",
+  "version": "1.0.0",
+  "main": "sms.js",
+  "types": "sms.d.ts",
+  "devDependencies": {},
+  "dependencies": {
+    "format-util": "^1.0.5"
+  },
+  "peerDependencies": {},
+  "optionalDependencies": {},
+  "bundledDependencies": []
+}

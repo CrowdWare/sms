@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="at.crowdware.sms.ScriptEngineTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2025-10-20T16:00:07" hostname="Mac.fritz.box" time="0.001">
+  <properties/>
+  <testcase name="testBasicArithmetic[js, browser, ChromeHeadless141.0.0.0, MacOS10.15.7]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <testcase name="testVariables[js, browser, ChromeHeadless141.0.0.0, MacOS10.15.7]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <testcase name="testFunctions[js, browser, ChromeHeadless141.0.0.0, MacOS10.15.7]" classname="at.crowdware.sms.ScriptEngineTest" time="0.001"/>
+  <testcase name="testArrays[js, browser, ChromeHeadless141.0.0.0, MacOS10.15.7]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <testcase name="testNativeFunctions[js, browser, ChromeHeadless141.0.0.0, MacOS10.15.7]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <testcase name="testKotlinFunction[js, browser, ChromeHeadless141.0.0.0, MacOS10.15.7]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <testcase name="testControlFlow[js, browser, ChromeHeadless141.0.0.0, MacOS10.15.7]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <testcase name="testLoops[js, browser, ChromeHeadless141.0.0.0, MacOS10.15.7]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <testcase name="testForInLoop[js, browser, ChromeHeadless141.0.0.0, MacOS10.15.7]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <testcase name="testSyntaxError[js, browser, ChromeHeadless141.0.0.0, MacOS10.15.7]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <testcase name="testRuntimeError[js, browser, ChromeHeadless141.0.0.0, MacOS10.15.7]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <testcase name="testSyntaxValidation[js, browser, ChromeHeadless141.0.0.0, MacOS10.15.7]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <testcase name="testSMSUtility[js, browser, ChromeHeadless141.0.0.0, MacOS10.15.7]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <testcase name="testStandardLibrary[js, browser, ChromeHeadless141.0.0.0, MacOS10.15.7]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,19 @@
+{
+  "version": "9",
+  "items": {
+    "f3f2c2382d71985d6b795d160137f399": {
+      "src": "/Users/art/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-js/1.9.20/6adfe1f1e3c99a19c123d96d713fb532786fdc62/kotlin-stdlib-js-1.9.20.klib"
+    },
+    "b50857453dcb30a49d765d6aca822dfe": {
+      "src": "/Users/art/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-dom-api-compat/1.9.20/3c0ac04445c1aeec4366d69e1791cd6ad31ddc07/kotlin-dom-api-compat-1.9.20.klib"
+    },
+    "a66860f155cb10a237acb5f7d0f6d0e3": {
+      "src": "/Users/art/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-test-js-runner/1.9.20/e9b1fc55af69eb09d63b271d17c217d9483241cc/kotlin-test-js-runner-1.9.20.jar",
+      "target": "kotlin-test-js-runner/0.0.1"
+    },
+    "4f5e9d32f69d3b5f0638603df1574fb6": {
+      "src": "/Users/art/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-test-js/1.9.20/118a42100da2fe897da48f85333d03ebb0fd20a0/kotlin-test-js-1.9.20.jar",
+      "target": "kotlin-test/1.9.20"
+    }
+  }
+}

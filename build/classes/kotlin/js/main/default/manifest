@@ -1,0 +1,10 @@
+abi_version=1.8.0
+builtins_platform=JS
+compiler_version=1.9.20
+depends=org.jetbrains.kotlin\:kotlin-dom-api-compat kotlin
+ir_signature_versions=1,2
+jsOutputName=sms
+metadata_version=1.4.1
+serializedIrFileFingerprints=2svjbjo3502hk.3cpygsam0vxte 1o6u96397selq.3i2krj2w3gmpw aepd0itwkc8r.2dvk8ug6x3rro 1wpho0ghs2zb9.1gu4efyqj1mu3 16jc9911xr7jg.3en6rocu3930u 3w2ulqf2g57bm.3m8osf56mog4a cagtl5h4hka.31o5cvw3lgxzk 165v9jkl00zvx.34syhhwonos2e 1lmqpn96zuisc.2niv5ou3ayrlt 3f5tzdzi8r1y5.33qb1lekq9lse
+serializedKlibFingerprint=28jdn245b1iov.39ss9q0w2yj59
+unique_name=at.crowdware\:sms

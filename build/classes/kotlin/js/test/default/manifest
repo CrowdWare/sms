@@ -1,0 +1,10 @@
+abi_version=1.8.0
+builtins_platform=JS
+compiler_version=1.9.20
+depends=at.crowdware\:sms org.jetbrains.kotlin\:kotlin-dom-api-compat kotlin-test kotlin
+ir_signature_versions=1,2
+jsOutputName=sms-test
+metadata_version=1.4.1
+serializedIrFileFingerprints=ec1oojwux9r7.1ayqm9d42psgd
+serializedKlibFingerprint=1ga87y5lg1dq9.1oltx2fq9rhdj
+unique_name=at.crowdware\:sms_test

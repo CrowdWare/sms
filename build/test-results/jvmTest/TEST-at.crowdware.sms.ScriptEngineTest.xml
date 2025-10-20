@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="at.crowdware.sms.ScriptEngineTest" tests="14" skipped="0" failures="0" errors="0" timestamp="2025-10-20T16:00:04" hostname="Mac.fritz.box" time="0.06">
+  <properties/>
+  <testcase name="testRuntimeError()[jvm]" classname="at.crowdware.sms.ScriptEngineTest" time="0.04"/>
+  <testcase name="testLoops()[jvm]" classname="at.crowdware.sms.ScriptEngineTest" time="0.006"/>
+  <testcase name="testNativeFunctions()[jvm]" classname="at.crowdware.sms.ScriptEngineTest" time="0.001"/>
+  <testcase name="testSyntaxError()[jvm]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <testcase name="testSyntaxValidation()[jvm]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <testcase name="testKotlinFunction()[jvm]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <testcase name="testStandardLibrary()[jvm]" classname="at.crowdware.sms.ScriptEngineTest" time="0.003"/>
+  <testcase name="testFunctions()[jvm]" classname="at.crowdware.sms.ScriptEngineTest" time="0.001"/>
+  <testcase name="testVariables()[jvm]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <testcase name="testBasicArithmetic()[jvm]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <testcase name="testSMSUtility()[jvm]" classname="at.crowdware.sms.ScriptEngineTest" time="0.001"/>
+  <testcase name="testArrays()[jvm]" classname="at.crowdware.sms.ScriptEngineTest" time="0.001"/>
+  <testcase name="testForInLoop()[jvm]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <testcase name="testControlFlow()[jvm]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

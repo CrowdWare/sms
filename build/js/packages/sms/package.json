@@ -1,0 +1,12 @@
+{
+  "name": "sms",
+  "version": "1.0.0",
+  "main": "kotlin/sms.js",
+  "devDependencies": {},
+  "dependencies": {
+    "format-util": "^1.0.5"
+  },
+  "peerDependencies": {},
+  "optionalDependencies": {},
+  "bundledDependencies": []
+}
