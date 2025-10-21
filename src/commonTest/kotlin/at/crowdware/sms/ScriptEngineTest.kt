@@ -225,4 +225,78 @@ class ScriptEngineTest {
         """)
         assertEquals(3.0, splitResult)
     }
+    
+    @Test
+    fun testBlockComments() {
+        val engine = ScriptEngine()
+        
+        // Test block comment in simple expression
+        val result1 = engine.executeAndGetKotlin("""
+            /* This is a block comment */
+            var x = 5
+            x + 3
+        """)
+        assertEquals(8.0, result1)
+        
+        // Test block comment in middle of code
+        val result2 = engine.executeAndGetKotlin("""
+            var a = 10
+            /* 
+             * Multi-line comment
+             * with multiple lines
+             */
+            var b = 20
+            a + b
+        """)
+        assertEquals(30.0, result2)
+        
+        // Test block comment with line comment together
+        val result3 = engine.executeAndGetKotlin("""
+            var x = 1 /* inline comment */ + 2 // line comment
+            x * 3
+        """)
+        assertEquals(9.0, result3)
+    }
+    
+    @Test
+    fun testUnterminatedBlockComment() {
+        val engine = ScriptEngine()
+        
+        // Should throw LexError for unterminated block comment
+        assertFailsWith<LexError> {
+            engine.execute("""
+                var x = 5
+                /* This comment is not closed
+                var y = 10
+            """)
+        }
+    }
+    
+    @Test
+    fun testDoubleRejectError() {
+        val engine = ScriptEngine()
+        
+        // Test that double literals are rejected with proper error message
+        val exception = assertFailsWith<ParseError> {
+            engine.execute("var name = 1.0")
+        }
+        assertTrue(exception.message?.contains("Double/float literals are not supported") ?: false)
+        
+        // Test various double formats are rejected
+        assertFailsWith<ParseError> {
+            engine.execute("var x = 3.14")
+        }
+        
+        assertFailsWith<ParseError> {
+            engine.execute("var y = 0.5")
+        }
+        
+        assertFailsWith<ParseError> {
+            engine.execute("var z = 123.456")
+        }
+        
+        // Integer literals should still work
+        val intResult = engine.executeAndGetKotlin("var x = 42; x")
+        assertEquals(42.0, intResult)
+    }
 }

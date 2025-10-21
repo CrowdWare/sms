@@ -66,6 +66,18 @@ class Lexer(private val input: String) {
                     // Line comment - skip to end of line
                     while (peek() != '\n' && !isAtEnd()) advance()
                     return nextToken() // Skip this comment and get next token
+                } else if (match('*')) {
+                    // Block comment - skip until */
+                    while (!isAtEnd()) {
+                        if (peek() == '*' && peekNext() == '/') {
+                            advance() // consume *
+                            advance() // consume /
+                            return nextToken() // Skip this comment and get next token
+                        }
+                        advance()
+                    }
+                    // If we reach here, the block comment was not closed
+                    throw LexError("Unterminated block comment - missing */", startPos)
                 } else {
                     Token(TokenType.DIVIDE, "/", startPos)
                 }

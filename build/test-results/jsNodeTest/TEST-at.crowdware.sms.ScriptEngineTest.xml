@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="at.crowdware.sms.ScriptEngineTest" tests="18" skipped="0" failures="2" errors="0" timestamp="2025-10-20T20:33:11" hostname="Mac.fritz.box" time="0.044">
+  <properties/>
+  <testcase name="testBasicArithmetic[js, node]" classname="at.crowdware.sms.ScriptEngineTest" time="0.003"/>
+  <testcase name="testVariables[js, node]" classname="at.crowdware.sms.ScriptEngineTest" time="0.001"/>
+  <testcase name="testFunctions[js, node]" classname="at.crowdware.sms.ScriptEngineTest" time="0.001"/>
+  <testcase name="testArrays[js, node]" classname="at.crowdware.sms.ScriptEngineTest" time="0.002"/>
+  <testcase name="testNativeFunctions[js, node]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <testcase name="testKotlinFunction[js, node]" classname="at.crowdware.sms.ScriptEngineTest" time="0.001"/>
+  <testcase name="testControlFlow[js, node]" classname="at.crowdware.sms.ScriptEngineTest" time="0.002"/>
+  <testcase name="testLoops[js, node]" classname="at.crowdware.sms.ScriptEngineTest" time="0.002"/>
+  <testcase name="testForInLoop[js, node]" classname="at.crowdware.sms.ScriptEngineTest" time="0.001"/>
+  <testcase name="testSyntaxError[js, node]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <testcase name="testRuntimeError[js, node]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <testcase name="testSyntaxValidation[js, node]" classname="at.crowdware.sms.ScriptEngineTest" time="0.001"/>
+  <testcase name="testSMSUtility[js, node]" classname="at.crowdware.sms.ScriptEngineTest" time="0.001"/>
+  <testcase name="testStringInterpolation[js, node]" classname="at.crowdware.sms.ScriptEngineTest" time="0.001"/>
+  <testcase name="testStandardLibrary[js, node]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <testcase name="testBlockComments[js, node]" classname="at.crowdware.sms.ScriptEngineTest" time="0.026">
+    <failure message="LexError: Error at line 2, column 43: Unexpected character ' '" type="LexError">LexError: Error at line 2, column 43: Unexpected character ' '
+	at &lt;global&gt;.nextToken(/Users/art/SourceCode/sms/src/commonMain/kotlin/at/crowdware/sms/lexer/Lexer.kt:136)
+	at &lt;global&gt;.nextToken(/Users/art/SourceCode/sms/src/commonMain/kotlin/at/crowdware/sms/lexer/Lexer.kt:75)
+	at Lexer.protoOf.tokenize_i964w5(/Users/art/SourceCode/sms/src/commonMain/kotlin/at/crowdware/sms/lexer/Lexer.kt:25)
+	at ScriptEngine.protoOf.execute_bmqzmt(/Users/art/SourceCode/sms/src/commonMain/kotlin/at/crowdware/sms/ScriptEngine.kt:47)
+	at ScriptEngine.protoOf.executeAndGetKotlin_7oi3xh(/Users/art/SourceCode/sms/src/commonMain/kotlin/at/crowdware/sms/ScriptEngine.kt:70)
+	at ScriptEngineTest.protoOf.testBlockComments_4dj0rl(/Users/art/SourceCode/sms/src/commonTest/kotlin/at/crowdware/sms/ScriptEngineTest.kt:254)
+	at &lt;global&gt;.fn(kotlin/sms-test.js:492)
+	at Context.&lt;anonymous&gt;(/Users/art/SourceCode/sms/build/js/packages_imported/kotlin-test-js-runner/src/KotlinTestTeamCityConsoleAdapter.ts:70)
+	at &lt;global&gt;.processImmediate(node:internal/timers:471)
+</failure>
+  </testcase>
+  <testcase name="testUnterminatedBlockComment[js, node]" classname="at.crowdware.sms.ScriptEngineTest" time="0.0"/>
+  <testcase name="testDoubleRejectError[js, node]" classname="at.crowdware.sms.ScriptEngineTest" time="0.001">
+    <failure message="ParseError: Error at line 1, column 11: Expected expression" type="ParseError">ParseError: Error at line 1, column 11: Expected expression
+	at &lt;global&gt;.primary(/Users/art/SourceCode/sms/src/commonMain/kotlin/at/crowdware/sms/parser/Parser.kt:399)
+	at &lt;global&gt;.call(/Users/art/SourceCode/sms/src/commonMain/kotlin/at/crowdware/sms/parser/Parser.kt:324)
+	at &lt;global&gt;.postfix(/Users/art/SourceCode/sms/src/commonMain/kotlin/at/crowdware/sms/parser/Parser.kt:313)
+	at &lt;global&gt;.unary(/Users/art/SourceCode/sms/src/commonMain/kotlin/at/crowdware/sms/parser/Parser.kt:309)
+	at &lt;global&gt;.factor(/Users/art/SourceCode/sms/src/commonMain/kotlin/at/crowdware/sms/parser/Parser.kt:291)
+	at &lt;global&gt;.term(/Users/art/SourceCode/sms/src/commonMain/kotlin/at/crowdware/sms/parser/Parser.kt:279)
+	at &lt;global&gt;.comparison(/Users/art/SourceCode/sms/src/commonMain/kotlin/at/crowdware/sms/parser/Parser.kt:267)
+	at &lt;global&gt;.equality(/Users/art/SourceCode/sms/src/commonMain/kotlin/at/crowdware/sms/parser/Parser.kt:255)
+	at &lt;global&gt;.and(/Users/art/SourceCode/sms/src/commonMain/kotlin/at/crowdware/sms/parser/Parser.kt:243)
+	at &lt;global&gt;.or(/Users/art/SourceCode/sms/src/commonMain/kotlin/at/crowdware/sms/parser/Parser.kt:231)
+	at &lt;global&gt;.expression(/Users/art/SourceCode/sms/src/commonMain/kotlin/at/crowdware/sms/parser/Parser.kt:228)
+	at &lt;global&gt;.expressionStatement(/Users/art/SourceCode/sms/src/commonMain/kotlin/at/crowdware/sms/parser/Parser.kt:208)
+	at &lt;global&gt;.statement(/Users/art/SourceCode/sms/src/commonMain/kotlin/at/crowdware/sms/parser/Parser.kt:56)
+	at Parser.protoOf.parse_1rdbjn(/Users/art/SourceCode/sms/src/commonMain/kotlin/at/crowdware/sms/parser/Parser.kt:28)
+	at ScriptEngine.protoOf.execute_bmqzmt(/Users/art/SourceCode/sms/src/commonMain/kotlin/at/crowdware/sms/ScriptEngine.kt:51)
+	at ScriptEngine.protoOf.executeAndGetKotlin_7oi3xh(/Users/art/SourceCode/sms/src/commonMain/kotlin/at/crowdware/sms/ScriptEngine.kt:70)
+	at ScriptEngineTest.protoOf.testDoubleRejectError_bvog5y(/Users/art/SourceCode/sms/src/commonTest/kotlin/at/crowdware/sms/ScriptEngineTest.kt:299)
+	at &lt;global&gt;.fn(kotlin/sms-test.js:502)
+	at Context.&lt;anonymous&gt;(/Users/art/SourceCode/sms/build/js/packages_imported/kotlin-test-js-runner/src/KotlinTestTeamCityConsoleAdapter.ts:70)
+	at &lt;global&gt;.processImmediate(node:internal/timers:471)
+</failure>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

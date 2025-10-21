@@ -41,14 +41,14 @@ val engine = ScriptEngine()
 
 // Register custom function
 engine.registerKotlinFunction("multiply") { args ->
-    val a = args.getOrNull(0) as? Double ?: 0.0
-    val b = args.getOrNull(1) as? Double ?: 0.0
+    val a = args.getOrNull(0) as? Int ?: 0
+    val b = args.getOrNull(1) as? Int ?: 0
     a * b
 }
 
 // Use in script
 val result = engine.executeAndGetKotlin("multiply(6, 7)")
-println(result) // 42.0
+println(result) // 42
 ```
 
 ### Error Handling
@@ -124,7 +124,9 @@ for (num in numbers) {
 ```sms
 var arr = [1, 2, 3]
 arr.add(4)
-println(arr.size) // 4
+arr.remove(2)
+arr.removeAt(0)
+println(arr.size) // 2
 
 var item = arr[0]
 arr[1] = 10
@@ -138,37 +140,6 @@ var person = Person("Alice", 30)
 println(person.name) // Alice
 ```
 
-## 🔧 Integration Examples
-
-### Roulette Game Integration
-
-```kotlin
-val engine = ScriptEngine()
-
-// Register game-specific functions
-engine.registerKotlinFunction("placeBet") { args ->
-    val target = args[0] as String
-    val amount = (args[1] as Double).toInt()
-    myRouletteEngine.placeBet(target, amount)
-    null
-}
-
-engine.registerKotlinFunction("getBalance") { _ ->
-    myGameState.balance.toDouble()
-}
-
-// Execute betting strategy
-engine.execute("""
-    fun martingaleStrategy() {
-        var bet = 100
-        if (getBalance() >= bet) {
-            placeBet("red", bet)
-        }
-    }
-    
-    martingaleStrategy()
-""")
-```
 
 ### Configuration Scripts
 

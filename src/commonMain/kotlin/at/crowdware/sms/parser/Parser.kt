@@ -357,7 +357,17 @@ class Parser(private val tokens: List<Token>) {
         return when {
             match(TokenType.BOOLEAN) -> BooleanLiteral(previous().text.toBoolean(), previous().position)
             match(TokenType.NULL) -> NullLiteral(previous().position)
-            match(TokenType.NUMBER) -> NumberLiteral(previous().text.toDouble(), previous().position)
+            match(TokenType.NUMBER) -> {
+                val token = previous()
+                val numberText = token.text
+                
+                // Check if this is a double/float literal (contains decimal point)
+                if (numberText.contains('.')) {
+                    throw ParseError("Double/float literals are not supported. Use integer values only.", token.position)
+                }
+                
+                NumberLiteral(numberText.toDouble(), token.position)
+            }
             match(TokenType.STRING) -> StringLiteral(previous().text, previous().position)
             match(TokenType.INTERPOLATED_STRING) -> parseInterpolatedString()
             match(TokenType.IDENTIFIER) -> Identifier(previous().text, previous().position)

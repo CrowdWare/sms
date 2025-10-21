@@ -10,6 +10,10 @@
     "a66860f155cb10a237acb5f7d0f6d0e3": {
       "src": "/Users/art/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-test-js-runner/1.9.20/e9b1fc55af69eb09d63b271d17c217d9483241cc/kotlin-test-js-runner-1.9.20.jar",
       "target": "kotlin-test-js-runner/0.0.1"
+    },
+    "4f5e9d32f69d3b5f0638603df1574fb6": {
+      "src": "/Users/art/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-test-js/1.9.20/118a42100da2fe897da48f85333d03ebb0fd20a0/kotlin-test-js-1.9.20.jar",
+      "target": "kotlin-test/1.9.20"
     }
   }
 }
