@@ -261,7 +261,7 @@ repositories {
 }
 
 dependencies {
-    implementation("at.crowdware:sms:1.0.0")
+    implementation("at.crowdware:sms:1.11")
 }
 ```
 
