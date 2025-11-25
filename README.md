@@ -119,6 +119,25 @@ for (num in numbers) {
 }
 ```
 
+### When Expressions
+
+```sms
+var language = "es"
+when (language) {
+    "de" -> "Deutsch"
+    "es" -> "Espaniol"
+    else -> "English"
+}
+
+var a = 10
+var b = 5
+when {
+    a > b -> "A > B"
+    b > a -> "B > A"
+    else -> "A = B"
+}
+```
+
 ### Arrays and Objects
 
 ```sms
@@ -138,6 +157,19 @@ arr[1] = 10
 data class Person(name, age)
 var person = Person("Alice", 30)
 println(person.name) // Alice
+```
+
+### Properties mit Getter/Setter
+
+```sms
+var language = "en"
+var label = " Initial "
+    get() = if (language == "de") "Bezeichner: $field" else "Label: $field"
+    set(value) = field = value.trim()
+
+label // "Label: Initial"
+label = "  Hello  "
+label // "Label: Hello"
 ```
 
 
