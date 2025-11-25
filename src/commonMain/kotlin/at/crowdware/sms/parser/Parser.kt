@@ -38,8 +38,8 @@ class Parser(private val tokens: List<Token>) {
         val statements = mutableListOf<Statement>()
         
         while (!isAtEnd()) {
-            // Skip newlines at top level
-            if (check(TokenType.NEWLINE)) {
+            // Skip separators at top level
+            if (check(TokenType.NEWLINE) || check(TokenType.SEMICOLON)) {
                 advance()
                 continue
             }
@@ -79,11 +79,48 @@ class Parser(private val tokens: List<Token>) {
     }
     
     private fun varDeclaration(): Statement {
+        val pos = previous().position
         val name = consume(TokenType.IDENTIFIER, "Expected variable name").text
         consume(TokenType.ASSIGN, "Expected '=' after variable name")
         val value = expression()
         skipNewlines()
-        return VarDeclaration(name, value, previous().position)
+        
+        var getter: PropertyAccessor? = null
+        var setter: PropertyAccessor? = null
+        
+        while (match(TokenType.GET, TokenType.SET)) {
+            val keyword = previous()
+            when (keyword.type) {
+                TokenType.GET -> {
+                    if (getter != null) throw ParseError("Multiple getters defined for property", keyword.position)
+                    getter = parseAccessor(isGetter = true)
+                }
+                TokenType.SET -> {
+                    if (setter != null) throw ParseError("Multiple setters defined for property", keyword.position)
+                    setter = parseAccessor(isGetter = false)
+                }
+                else -> {}
+            }
+        }
+        skipNewlines()
+        return VarDeclaration(name, value, getter, setter, pos)
+    }
+    
+    private fun parseAccessor(isGetter: Boolean): PropertyAccessor {
+        val pos = previous().position
+        consume(TokenType.LEFT_PAREN, "Expected '(' after ${if (isGetter) "get" else "set"}")
+        val parameterName = if (isGetter) {
+            consume(TokenType.RIGHT_PAREN, "Expected ')' after get")
+            null
+        } else {
+            val param = consume(TokenType.IDENTIFIER, "Expected parameter name in setter").text
+            consume(TokenType.RIGHT_PAREN, "Expected ')' after setter parameter")
+            param
+        }
+        consume(TokenType.ASSIGN, "Expected '=' after ${if (isGetter) "get" else "set"} accessor")
+        val body = expression()
+        skipNewlines()
+        return PropertyAccessor(parameterName, body, pos)
     }
     
     private fun functionDeclaration(): Statement {
@@ -213,14 +250,11 @@ class Parser(private val tokens: List<Token>) {
     
     private fun assignment(): Statement {
         val expr = expression()
-        
-        if (match(TokenType.ASSIGN)) {
-            val value = expression()
+        if (expr is AssignmentExpression) {
             skipNewlines()
-            return Assignment(expr, value, expr.position)
+            return Assignment(expr.target, expr.value, expr.position)
         }
-        
-        throw ParseError("Expected assignment", peek().position)
+        throw ParseError("Expected assignment", expr.position ?: peek().position)
     }
     
     private fun expressionStatement(): Statement {
@@ -234,7 +268,7 @@ class Parser(private val tokens: List<Token>) {
         
         skipNewlines()
         while (!check(TokenType.RIGHT_BRACE) && !isAtEnd()) {
-            if (match(TokenType.NEWLINE)) continue
+            if (match(TokenType.NEWLINE) || match(TokenType.SEMICOLON)) continue
             statements.add(statement())
         }
         
@@ -244,7 +278,23 @@ class Parser(private val tokens: List<Token>) {
     
     // ===== EXPRESSIONS =====
     
-    private fun expression(): Expression = or()
+    private fun expression(): Expression = assignmentExpression()
+    
+    private fun assignmentExpression(): Expression {
+        val expr = or()
+        
+        if (match(TokenType.ASSIGN)) {
+            val value = assignmentExpression()
+            val position = expr.position ?: previous().position
+            
+            return when (expr) {
+                is Identifier, is MemberAccess, is ArrayAccess -> AssignmentExpression(expr, value, position)
+                else -> throw ParseError("Invalid assignment target", position)
+            }
+        }
+        
+        return expr
+    }
     
     private fun or(): Expression {
         var expr = and()
@@ -325,7 +375,71 @@ class Parser(private val tokens: List<Token>) {
             return UnaryExpression(operator, right, previous().position)
         }
         
-        return postfix()
+        return ifExpression()
+    }
+    
+    private fun ifExpression(): Expression {
+        if (!match(TokenType.IF)) {
+            return whenExpression()
+        }
+        
+        val startPos = previous().position
+        consume(TokenType.LEFT_PAREN, "Expected '(' after 'if'")
+        val condition = expression()
+        consume(TokenType.RIGHT_PAREN, "Expected ')' after if condition")
+        skipNewlines()
+        val thenBranch = expression()
+        if (!match(TokenType.ELSE)) {
+            throw ParseError("If expression requires 'else' branch", startPos)
+        }
+        skipNewlines()
+        val elseBranch = expression()
+        return IfExpression(condition, thenBranch, elseBranch, startPos)
+    }
+    
+    private fun whenExpression(): Expression {
+        if (!match(TokenType.WHEN)) {
+            return postfix()
+        }
+        
+        val startPos = previous().position
+        val subject = if (match(TokenType.LEFT_PAREN)) {
+            val expr = expression()
+            consume(TokenType.RIGHT_PAREN, "Expected ')' after when subject")
+            expr
+        } else null
+        
+        consume(TokenType.LEFT_BRACE, "Expected '{' after when")
+        skipNewlines()
+        
+        val branches = mutableListOf<WhenBranch>()
+        var elseSeen = false
+        
+        while (!check(TokenType.RIGHT_BRACE) && !isAtEnd()) {
+            if (match(TokenType.NEWLINE)) continue
+            
+            val isElseBranch = match(TokenType.ELSE)
+            val condition: Expression?
+            val branchPos: Position?
+            
+            if (isElseBranch) {
+                if (elseSeen) throw ParseError("Multiple 'else' branches in when", previous().position)
+                elseSeen = true
+                condition = null
+                branchPos = previous().position
+            } else {
+                condition = expression()
+                branchPos = condition.position
+            }
+            
+            consume(TokenType.ARROW, "Expected '->' after when condition")
+            val result = expression()
+            branches.add(WhenBranch(condition, result, isElseBranch, branchPos))
+            skipNewlines()
+        }
+        
+        consume(TokenType.RIGHT_BRACE, "Expected '}' after when branches")
+        return WhenExpression(subject, branches, startPos)
     }
     
     private fun postfix(): Expression {
@@ -415,7 +529,10 @@ class Parser(private val tokens: List<Token>) {
                 ArrayLiteral(elements, startPos)
             }
             
-            else -> throw ParseError("Expected expression", peek().position)
+            else -> {
+                val unexpected = peek()
+                throw ParseError("Expected expression, found ${unexpected.type}", unexpected.position)
+            }
         }
     }
     

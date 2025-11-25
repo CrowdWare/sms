@@ -34,22 +34,28 @@ class ReturnException(val value: Value) : Exception()
 /**
  * Variable and function scope
  */
+data class VariableBinding(
+    var value: Value,
+    val getter: PropertyAccessor? = null,
+    val setter: PropertyAccessor? = null
+)
+
 class Scope(private val parent: Scope? = null) {
-    private val variables = mutableMapOf<String, Value>()
+    private val variables = mutableMapOf<String, VariableBinding>()
     private val functions = mutableMapOf<String, FunctionDeclaration>()
     private val dataClasses = mutableMapOf<String, DataClassDeclaration>()
     
-    fun defineVariable(name: String, value: Value) {
-        variables[name] = value
+    fun defineVariable(name: String, value: Value, getter: PropertyAccessor? = null, setter: PropertyAccessor? = null) {
+        variables[name] = VariableBinding(value, getter, setter)
     }
     
-    fun getVariable(name: String): Value? {
-        return variables[name] ?: parent?.getVariable(name)
+    fun getVariableBinding(name: String): VariableBinding? {
+        return variables[name] ?: parent?.getVariableBinding(name)
     }
     
     fun setVariable(name: String, value: Value): Boolean {
         if (variables.containsKey(name)) {
-            variables[name] = value
+            variables[name]?.value = value
             return true
         }
         return parent?.setVariable(name, value) ?: false
@@ -122,37 +128,13 @@ class Interpreter(private val nativeFunctions: NativeFunctionRegistry = NativeFu
             return when (statement) {
                 is VarDeclaration -> {
                     val value = evaluateExpression(statement.value)
-                    currentScope.defineVariable(statement.name, value)
+                    currentScope.defineVariable(statement.name, value, statement.getter, statement.setter)
                     NullValue
                 }
                 
                 is Assignment -> {
                     val value = evaluateExpression(statement.value)
-                    when (val target = statement.target) {
-                        is Identifier -> {
-                            if (!currentScope.setVariable(target.name, value)) {
-                                throw RuntimeError("Undefined variable '${target.name}'", statement.position)
-                            }
-                        }
-                        is MemberAccess -> {
-                            val obj = evaluateExpression(target.receiver)
-                            if (obj is ObjectValue) {
-                                obj.setField(target.member, value)
-                            } else {
-                                throw RuntimeError("Cannot set field on non-object", statement.position)
-                            }
-                        }
-                        is ArrayAccess -> {
-                            val array = evaluateExpression(target.receiver)
-                            val index = evaluateExpression(target.index)
-                            if (array is ArrayValue && index is NumberValue) {
-                                array.set(index.toInt(), value)
-                            } else {
-                                throw RuntimeError("Invalid array assignment", statement.position)
-                            }
-                        }
-                        else -> throw RuntimeError("Invalid assignment target", statement.position)
-                    }
+                    applyAssignmentTarget(statement.target, value, statement.position)
                     NullValue
                 }
                 
@@ -313,8 +295,9 @@ class Interpreter(private val nativeFunctions: NativeFunctionRegistry = NativeFu
                 is NullLiteral -> NullValue
                 
                 is Identifier -> {
-                    currentScope.getVariable(expression.name)
+                    val binding = currentScope.getVariableBinding(expression.name)
                         ?: throw RuntimeError("Undefined variable '${expression.name}'", expression.position)
+                    getBindingValue(binding)
                 }
                 
                 is BinaryExpression -> evaluateBinaryExpression(expression)
@@ -382,6 +365,18 @@ class Interpreter(private val nativeFunctions: NativeFunctionRegistry = NativeFu
                     ArrayValue(elements)
                 }
                 
+                is IfExpression -> {
+                    val condition = evaluateExpression(expression.condition)
+                    if (ValueUtils.isTruthy(condition)) {
+                        return evaluateExpression(expression.thenBranch)
+                    }
+                    return evaluateExpression(expression.elseBranch)
+                }
+                
+                is AssignmentExpression -> applyAssignmentTarget(expression.target, evaluateExpression(expression.value), expression.position)
+                
+                is WhenExpression -> evaluateWhenExpression(expression)
+                
                 else -> throw RuntimeError("Unknown expression type", expression.position)
             }
         } catch (e: RuntimeError) {
@@ -391,7 +386,101 @@ class Interpreter(private val nativeFunctions: NativeFunctionRegistry = NativeFu
         }
     }
     
+    private fun getBindingValue(binding: VariableBinding): Value {
+        return if (binding.getter != null) {
+            evaluateAccessor(binding.getter, binding, null, binding.getter.pos)
+        } else {
+            binding.value
+        }
+    }
+    
+    private fun assignToBinding(binding: VariableBinding, value: Value, position: Position?) {
+        if (binding.setter != null) {
+            evaluateAccessor(binding.setter, binding, value, binding.setter.pos)
+        } else {
+            binding.value = value
+        }
+    }
+    
+    private fun evaluateAccessor(accessor: PropertyAccessor, binding: VariableBinding, newValue: Value?, position: Position?): Value {
+        val accessorScope = Scope(currentScope)
+        val prevScope = currentScope
+        currentScope = accessorScope
+        
+        return try {
+            accessorScope.defineVariable("field", binding.value)
+            accessor.parameterName?.let { paramName ->
+                accessorScope.defineVariable(paramName, newValue ?: NullValue)
+            }
+            val result = evaluateExpression(accessor.body)
+            accessorScope.getVariableBinding("field")?.let { fieldBinding ->
+                binding.value = fieldBinding.value
+            }
+            result
+        } catch (e: RuntimeError) {
+            throw e
+        } catch (e: Exception) {
+            throw RuntimeError("Error in property accessor: ${e.message}", position, e)
+        } finally {
+            currentScope = prevScope
+        }
+    }
+    
+    private fun applyAssignmentTarget(target: Expression, value: Value, position: Position?): Value {
+        when (target) {
+            is Identifier -> {
+                val binding = currentScope.getVariableBinding(target.name)
+                    ?: throw RuntimeError("Undefined variable '${target.name}'", position)
+                assignToBinding(binding, value, position)
+            }
+            is MemberAccess -> {
+                val obj = evaluateExpression(target.receiver)
+                if (obj is ObjectValue) {
+                    obj.setField(target.member, value)
+                } else {
+                    throw RuntimeError("Cannot set field on non-object", position)
+                }
+            }
+            is ArrayAccess -> {
+                val array = evaluateExpression(target.receiver)
+                val index = evaluateExpression(target.index)
+                if (array is ArrayValue && index is NumberValue) {
+                    array.set(index.toInt(), value)
+                } else {
+                    throw RuntimeError("Invalid array assignment", position)
+                }
+            }
+            else -> throw RuntimeError("Invalid assignment target", position)
+        }
+        return value
+    }
+    
     // Helper methods for specific operations
+    private fun evaluateWhenExpression(expr: WhenExpression): Value {
+        val subject = expr.subject?.let { evaluateExpression(it) }
+        
+        for (branch in expr.branches) {
+            if (branch.isElse) {
+                return evaluateExpression(branch.result)
+            }
+            
+            val conditionValue = branch.condition?.let { evaluateExpression(it) }
+                ?: throw RuntimeError("When branch missing condition", branch.pos)
+            
+            val matches = if (subject != null) {
+                ValueUtils.equals(subject, conditionValue)
+            } else {
+                ValueUtils.isTruthy(conditionValue)
+            }
+            
+            if (matches) {
+                return evaluateExpression(branch.result)
+            }
+        }
+        
+        return NullValue
+    }
+    
     private fun evaluateBinaryExpression(expr: BinaryExpression): Value {
         val left = evaluateExpression(expr.left)
         val right = evaluateExpression(expr.right)
@@ -480,8 +569,9 @@ class Interpreter(private val nativeFunctions: NativeFunctionRegistry = NativeFu
     private fun evaluatePostfixExpression(expr: PostfixExpression): Value {
         when (val operand = expr.operand) {
             is Identifier -> {
-                val current = currentScope.getVariable(operand.name)
+                val binding = currentScope.getVariableBinding(operand.name)
                     ?: throw RuntimeError("Undefined variable '${operand.name}'", expr.position)
+                val current = getBindingValue(binding)
                 
                 if (current is NumberValue) {
                     val newValue = when (expr.operator) {
@@ -489,7 +579,7 @@ class Interpreter(private val nativeFunctions: NativeFunctionRegistry = NativeFu
                         "--" -> NumberValue(current.value - 1)
                         else -> throw RuntimeError("Unknown postfix operator '${expr.operator}'", expr.position)
                     }
-                    currentScope.setVariable(operand.name, newValue)
+                    assignToBinding(binding, newValue, expr.position)
                     return current // Return old value
                 } else {
                     throw RuntimeError("Postfix operators only work on numbers", expr.position)
@@ -563,6 +653,7 @@ class Interpreter(private val nativeFunctions: NativeFunctionRegistry = NativeFu
             "length" -> NumberValue(string.value.length)
             "toUpperCase" -> StringValue(string.value.uppercase())
             "toLowerCase" -> StringValue(string.value.lowercase())
+            "trim" -> StringValue(string.value.trim())
             else -> throw RuntimeError("Unknown string method '$method'", position)
         }
     }

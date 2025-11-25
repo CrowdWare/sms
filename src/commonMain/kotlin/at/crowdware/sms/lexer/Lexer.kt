@@ -73,7 +73,9 @@ class Lexer(private val input: String) {
                 }
             }
             '-' -> {
-                if (match('-')) {
+                if (match('>')) {
+                    Token(TokenType.ARROW, "->", startPos)
+                } else if (match('-')) {
                     Token(TokenType.DECREMENT, "--", startPos)
                 } else {
                     Token(TokenType.MINUS, "-", startPos)
@@ -84,6 +86,7 @@ class Lexer(private val input: String) {
                 if (match('/')) {
                     // Line comment - skip to end of line
                     while (peek() != '\n' && !isAtEnd()) advance()
+                    skipWhitespace()
                     return nextToken() // Skip this comment and get next token
                 } else if (match('*')) {
                     // Block comment - skip until */
@@ -91,6 +94,7 @@ class Lexer(private val input: String) {
                         if (peek() == '*' && peekNext() == '/') {
                             advance() // consume *
                             advance() // consume /
+                            skipWhitespace()
                             return nextToken() // Skip this comment and get next token
                         }
                         advance()
@@ -378,6 +382,9 @@ class Lexer(private val input: String) {
         private val KEYWORDS = mapOf(
             "fun" to TokenType.FUN,
             "var" to TokenType.VAR,
+            "get" to TokenType.GET,
+            "set" to TokenType.SET,
+            "when" to TokenType.WHEN,
             "if" to TokenType.IF,
             "else" to TokenType.ELSE,
             "while" to TokenType.WHILE,

@@ -44,8 +44,19 @@ abstract class Expression(position: Position?) : ASTNode(position)
 data class VarDeclaration(
     val name: String,
     val value: Expression,
+    val getter: PropertyAccessor? = null,
+    val setter: PropertyAccessor? = null,
     val pos: Position? = null
 ) : Statement(pos)
+
+/**
+ * Property accessor definition for getters and setters
+ */
+data class PropertyAccessor(
+    val parameterName: String? = null,
+    val body: Expression,
+    val pos: Position? = null
+) : ASTNode(pos)
 
 /**
  * Assignment: name = value or obj.field = value
@@ -73,6 +84,16 @@ data class IfStatement(
     val elseBranch: List<Statement>? = null,
     val pos: Position? = null
 ) : Statement(pos)
+
+/**
+ * If expression: if (condition) expr else expr
+ */
+data class IfExpression(
+    val condition: Expression,
+    val thenBranch: Expression,
+    val elseBranch: Expression,
+    val pos: Position? = null
+) : Expression(pos)
 
 /**
  * While loop: while (condition) { body }
@@ -259,6 +280,15 @@ data class MemberAccess(
 ) : Expression(pos)
 
 /**
+ * Assignment used in expression contexts (e.g., property setters)
+ */
+data class AssignmentExpression(
+    val target: Expression,
+    val value: Expression,
+    val pos: Position? = null
+) : Expression(pos)
+
+/**
  * Array access: receiver[index]
  */
 data class ArrayAccess(
@@ -274,6 +304,25 @@ data class ArrayLiteral(
     val elements: List<Expression>,
     val pos: Position? = null
 ) : Expression(pos)
+
+/**
+ * When expression with optional subject and multiple branches
+ */
+data class WhenExpression(
+    val subject: Expression?,
+    val branches: List<WhenBranch>,
+    val pos: Position? = null
+) : Expression(pos)
+
+/**
+ * Single branch within a when expression
+ */
+data class WhenBranch(
+    val condition: Expression?,
+    val result: Expression,
+    val isElse: Boolean = false,
+    val pos: Position? = null
+) : ASTNode(pos)
 
 /**
  * Program - root AST node containing all statements

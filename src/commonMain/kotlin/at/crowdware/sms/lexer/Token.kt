@@ -38,6 +38,9 @@ enum class TokenType {
     // Keywords
     VAR,           // var
     FUN,           // fun
+    GET,           // get
+    SET,           // set
+    WHEN,          // when
     IF,            // if
     ELSE,          // else
     WHILE,         // while
@@ -66,6 +69,7 @@ enum class TokenType {
     OR,            // ||
     INCREMENT,     // ++
     DECREMENT,     // --
+    ARROW,         // ->
     
     // Delimiters
     LEFT_PAREN,    // (
@@ -101,6 +105,9 @@ data class Token(
 internal val KEYWORDS = mapOf(
     "var" to TokenType.VAR,
     "fun" to TokenType.FUN,
+    "get" to TokenType.GET,
+    "set" to TokenType.SET,
+    "when" to TokenType.WHEN,
     "if" to TokenType.IF,
     "else" to TokenType.ELSE,
     "while" to TokenType.WHILE,

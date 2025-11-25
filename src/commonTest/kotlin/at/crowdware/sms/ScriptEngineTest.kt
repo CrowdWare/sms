@@ -104,6 +104,42 @@ class ScriptEngineTest {
     }
     
     @Test
+    fun testWhenExpression() {
+        val engine = ScriptEngine()
+        
+        val result1 = engine.executeAndGetKotlin("""
+            var expression = "es"
+            when (expression) {
+                "de" -> "Deutsch"
+                "es" -> "Espaniol"
+                else -> "English"
+            }
+        """)
+        assertEquals("Espaniol", result1)
+        
+        val result2 = engine.executeAndGetKotlin("""
+            var expression = 2
+            when (expression) {
+                1 -> "Eins"
+                2 -> "Zwei"
+                else -> "undefined"
+            }
+        """)
+        assertEquals("Zwei", result2)
+        
+        val result3 = engine.executeAndGetKotlin("""
+            var a = 10
+            var b = 5
+            when {
+                a > b -> "A > B"
+                b > a -> "B > A"
+                else -> "A = B"
+            }
+        """)
+        assertEquals("A > B", result3)
+    }
+    
+    @Test
     fun testLoops() {
         val engine = ScriptEngine()
         
@@ -224,6 +260,33 @@ class ScriptEngineTest {
             parts.size
         """)
         assertEquals(3.0, splitResult)
+    }
+    
+    @Test
+    fun testPropertyAccessors() {
+        val engine = ScriptEngine()
+        
+        val result1 = engine.executeAndGetKotlin("""
+            var language = "de"
+            var whatLabel = "Initial"
+                get() = when(language) {
+                    "de" -> "Bezeichner: ${'$'}field"
+                    else -> "Label: ${'$'}field"
+                }
+                set(value) = field = value.trim()
+            whatLabel
+        """)
+        assertEquals("Bezeichner: Initial", result1)
+        
+        val result2 = engine.executeAndGetKotlin("""
+            var language = "en"
+            var whatLabel = " Initial "
+                get() = if (language == "de") "Bezeichner: ${'$'}field" else "Label: ${'$'}field"
+                set(value) = field = value.trim()
+            whatLabel = "   Hello  "
+            whatLabel
+        """)
+        assertEquals("Label: Hello", result2)
     }
     
     @Test
